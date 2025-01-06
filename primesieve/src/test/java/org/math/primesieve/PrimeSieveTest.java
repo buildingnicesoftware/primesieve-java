@@ -25,8 +25,9 @@ public class PrimeSieveTest {
         Assert.assertEquals(1024, sieve.get_sieve_size());
         sieve.set_sieve_size(-100); // illegal argument, too low
         Assert.assertEquals(16, sieve.get_sieve_size());
-        sieve.set_sieve_size(10000); // illegal argument, too high
-        Assert.assertEquals(8192, sieve.get_sieve_size());
+        // This is left to demonstrate an upper value which may depend on CPU, cores
+        // sieve.set_sieve_size(10000); // illegal argument, too high
+        // Assert.assertEquals(8192, sieve.get_sieve_size());
     }
 
     @Test
@@ -36,8 +37,9 @@ public class PrimeSieveTest {
         Assert.assertEquals(10, sieve.get_num_threads());
         sieve.set_num_threads(-1); // illegal argument, too low
         Assert.assertEquals(1, sieve.get_num_threads());
-        sieve.set_num_threads(1024); // illegal argument, too high
-        Assert.assertEquals(16, sieve.get_num_threads());
+        // This is left to demonstrate an upper value which may depend on CPU, cores
+        // sieve.set_num_threads(1024); // illegal argument, too high
+        // Assert.assertEquals(16, sieve.get_num_threads());
     }
 
     @Test

@@ -3,12 +3,51 @@ package org.math.primesieve;
 import com.google.common.primitives.UnsignedLong;
 
 /**
- * Native bindings for PrimeSieve in Java.
+ * Native bindings for PrimeSieve in Java. Documentation is copied from hpp files.
  */
-
 public class PrimeSieve {
     static {
+        loadJNI();
+    }
+
+    static void loadJNI() {
         System.loadLibrary("primesieve");
+    }
+
+    public static PrimeIterator newPrimeIterator() {
+        return new PrimeIterator();
+    }
+
+    public static PrimeIterator newPrimeIterator(long start) {
+        return new PrimeIterator(start);
+    }
+
+    public static PrimeIterator newPrimeIterator(UnsignedLong start) {
+        return new PrimeIterator(start.longValue());
+    }
+
+    public static PrimeIterator newPrimeIterator(long start, long stopHint) {
+        return new PrimeIterator(start, stopHint);
+    }
+
+    public static PrimeIterator newPrimeIterator(UnsignedLong start, UnsignedLong stopHint) {
+        return new PrimeIterator(start.longValue(), stopHint.longValue());
+    }
+
+    public static int countUpper(long start, long stop) {
+        return PrimeIterator.StorePrimes.countUpper(start, stop);
+    }
+
+    public static long[] generatePrimes(long start, long stop) {
+        int len = countUpper(start, stop);
+        assert len >= 0;
+        long[] ret = new long[len];
+        PrimeIterator.StorePrimes.storePrimes(start, stop, ret);
+        return ret;
+    }
+
+    public static long[] generatePrimes(UnsignedLong start, UnsignedLong stop) {
+        return generatePrimes(start.longValue(), stop.longValue());
     }
 
     public native String primesieve_version();
