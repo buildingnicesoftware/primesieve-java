@@ -15,6 +15,7 @@ dependencies {
     implementation(libs.log4j.api)
     implementation(libs.log4j.slf4j.api)
     implementation(libs.lombok)
+    implementation(libs.guava)
 
     annotationProcessor(libs.lombok)
     testAnnotationProcessor(libs.lombok)

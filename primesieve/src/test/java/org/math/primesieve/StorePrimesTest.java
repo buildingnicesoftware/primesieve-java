@@ -1,11 +1,15 @@
 package org.math.primesieve;
 
+import com.google.common.base.Preconditions;
 import com.google.common.primitives.UnsignedLong;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
+@Slf4j
 public class StorePrimesTest {
     @Test
     public void testStorePrimes() {
@@ -29,5 +33,62 @@ public class StorePrimesTest {
     @Test
     public void testNoPrimes() {
         Assert.assertEquals(0, LongStream.of(PrimeSieve.generatePrimes(20, 22)).filter(p->p!=0).toArray().length);
+    }
+
+    @Test
+    public void testPrimesAgainstSieve() {
+        int n = 500_000_000;
+        long startTime = System.currentTimeMillis();
+        int[] sieve_primes = sieveToPrimes(computeSieve(n), n).toArray();
+        long diff1 = System.currentTimeMillis()-startTime;
+        startTime = System.currentTimeMillis();
+        int[] primesieve = LongStream.of(PrimeSieve.generatePrimes(1, n)).filter(p->p!=0).mapToInt(p->(int)p).toArray();
+        long diff2 = System.currentTimeMillis()-startTime;
+        log.info("up until n={}: bf sieve = {}ms, primesieve = {}ms", n, diff1, diff2);
+        Assert.assertArrayEquals(sieve_primes, primesieve);
+    }
+
+    private static boolean[] computeSieve(int n) {
+        Preconditions.checkArgument(n > 2);
+        // only need to store half the memory, don't need evens
+        boolean[] sieve = new boolean[(n - 2)/2];
+        for (int i = 3; i <= Math.sqrt(n); i+=2) {
+            if (sieve[(i-1)/2 - 1]) {
+                continue;
+            }
+            int j = i;
+            if (j + i >= n) {
+                break;
+            }
+            do {
+                j += i;
+                if (j%2 == 1 && j%i == 0) {
+                    sieve[(j-1)/2 - 1] = true;
+                }
+            } while ((j+i) < n);
+        }
+        return sieve;
+    }
+
+    private static IntStream sieveToPrimes(boolean[] sieve, int maxN) {
+        Preconditions.checkArgument(maxN >= 0);
+        int n = 2*sieve.length + 2;
+        if (maxN == 0) {
+            maxN = n;
+        } else if (maxN > n) {
+            throw new IllegalArgumentException("Max sieve size is " + n + ", received " + maxN);
+        }
+        return IntStream.concat(IntStream.of(2), IntStream.range(1, (maxN-2)/2+1).map(i->2*i+1).filter(p->isPrime(sieve, p)));
+    }
+
+    private static boolean isPrime(boolean[] sieve, int n) {
+        if (n <= 2) {
+            return n == 2;
+        }
+        if (n%2 == 0) {
+            return false;
+        }
+        int target = (n-1)/2 - 1;
+        return target < sieve.length && !sieve[target];
     }
 }
