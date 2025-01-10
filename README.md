@@ -46,8 +46,6 @@ The unit tests show example usage of primesieve-java. For example:
                 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97}, primes);
     }
 ```
-Unit tests are defined for every native function and include testing against a naive [Sieve of Eratosthenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) for primes until 500M.
-
 Where appropriate `UnsignedLong` is used from the [guava](https://guava.dev/) dependency.
 In general this is provided for convenience and it is not recommended to use boxed primitives for performance
 reasons. As an example where unsigned long might be useful:
