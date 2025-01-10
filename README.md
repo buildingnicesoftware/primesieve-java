@@ -19,7 +19,7 @@ Check that the libraries and headers are installed:
 primesieve-java must be built locally, ex:
 * `git clone https://github.com/buildingnicesoftware/primesieve-java.git`
 * `cd primesieve-java`
-* ./gradlew run 
+
 ```console
 ./gradlew run
 > Task :primesieve-main:run
