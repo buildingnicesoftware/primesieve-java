@@ -44,9 +44,12 @@ jobs:
         cmake --build . --parallel
         sudo ldconfig
         sudo mkdir -p /usr/local/lib
-        sudo cp libprimesieve.* /usr/local/lib/.
+        sudo cp libprimesieve.* /usr/lib/.
         sudo cp -R include/primesieve* /usr/local/include/.
         cd ../..
+        echo "primesieve build complete"
+        ls -l /usr/local/include/primesieve*
+        ls -l /usr/lib/libprimesieve.*
     - name: Build
       run: ./gradlew build
     - name: Run
