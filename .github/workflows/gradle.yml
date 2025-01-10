@@ -51,7 +51,9 @@ jobs:
         ls -l /usr/local/include/primesieve*
         ls -l /usr/lib/libprimesieve.*
     - name: Build
-      run: ./gradlew build
+      run: |
+        ./gradlew build
+        find . -name "libprimesieve.*"
     - name: Run
       run: ./gradlew run
 
