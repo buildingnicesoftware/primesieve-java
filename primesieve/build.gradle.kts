@@ -35,7 +35,7 @@ tasks.withType<Test> {
 
 library {
     // Only Intel MacOS is developed and tested
-    targetMachines.set(listOf(machines.macOS.x86_64))
+    targetMachines.set(listOf(machines.macOS.x86_64, machines.linux.x86_64))
 
     binaries.configureEach {
         if (this is SharedLibraryBinary) {
