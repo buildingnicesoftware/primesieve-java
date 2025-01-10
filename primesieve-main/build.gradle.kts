@@ -23,5 +23,7 @@ dependencies {
 
 application {
     mainClass = "org.math.primesieve.PrimeSieveMain"
-    applicationDefaultJvmArgs = listOf("-Djava.library.path="+project.rootDir+"/primesieve/build/libs/main/")
+    // XXX Normally you wouldn't set multiple targets here, this is just to get things working on both targets
+    applicationDefaultJvmArgs = listOf("-Djava.library.path="+project.rootDir+"/primesieve/build/libs/main/macos:"+
+            project.rootDir+"/primesieve/build/libs/main/linux")
 }
