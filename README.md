@@ -60,15 +60,18 @@ reasons. As an example where unsigned long might be useful:
         }
     }
 ```
-Note that generating primes until `n` will generate `long[]` arrays larger than required. For performance
+In general all `primesieve` methods to count and get nth prime etc are implemented as well as `primesieve::iterator`
+and `StorePrimes` generating primes efficiently until a max `n`. For more details see [Development](#Development).
+
+Note that generating primes will allocate java `long[]` arrays larger than required. For performance
 reasons primesieve-java natively sizes the array one time and uses `memcpy` for efficient
 copies from `primesieve::iterator` Implementations need to check for trailing zeros which mark the
 end of the arrays. See the classes and javadoc for more information.
 
 ## Performance
 Using all `8` CPU cores and `16` threads primesieve-java generates all primes up to `1 billion` into
-a java `long[]` array in `~500ms`. For comparison, a serial [Sieve of Eratosthenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes)
-was implemented in Java for comparison and took over `8s`. This test is implemented in
+a java `long[]` array in `~500ms`. For comparison, a naive, serial [Sieve of Eratosthenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes)
+was implemented in Java and took over `8s`. The test is implemented in
 [StorePrimesTest.java](primesieve/src/test/java/org/math/primesieve/StorePrimesTest.java).
 
 ## Development
