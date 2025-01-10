@@ -19,7 +19,7 @@ On ubuntu:
   * `ls /usr/lib/libprimesieve.*`
 
 ## Build
-Ubuntu is built automatically as part of the github workflow, see [.github/workflows/gradle.yml](gradle.yml).
+Ubuntu is built automatically as part of the github workflow, see [gradle.yml](.github/workflows/gradle.yml).
 
 For MacOSX, primesieve-java must be built locally, ex:
 * `git clone https://github.com/buildingnicesoftware/primesieve-java.git`
