@@ -28,6 +28,11 @@ dependencies {
     testAnnotationProcessor(libs.lombok)
 }
 
+tasks.withType<Test> {
+    // For 1B comparison test
+    jvmArgs = listOf("-Xmx2g")
+}
+
 library {
     // Only Intel MacOS is developed and tested
     targetMachines.set(listOf(machines.macOS.x86_64))

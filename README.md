@@ -62,21 +62,28 @@ reasons. As an example where unsigned long might be useful:
         }
     }
 ```
-Note that generating primes until `n` will generate long[] arrays larger than required. For performance
+Note that generating primes until `n` will generate `long[]` arrays larger than required. For performance
 reasons primesieve-java natively sizes the array one time and uses `memcpy` for efficient
 copies from `primesieve::iterator` Implementations need to check for trailing zeros which mark the
 end of the arrays. See the classes and javadoc for more information.
 
+## Performance
+Using all `8` CPU cores and `16` threads primesieve-java generates all primes up to `1 billion` into
+a java `long[]` array in `~500ms`. For comparison, a serial [Sieve of Eratosthenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes)
+was implemented in Java for comparison and took over `8s`. This test is implemented in
+[StorePrimesTest.java](primesieve/src/test/java/org/math/primesieve/StorePrimesTest.java).
+
 ## Development
 primesieve-java uses [nokee](https://repo.nokee.dev/) to compile natively. The compiler and linker 
-arguments are set in [primesieve/build.gradle.kts](build.gradle.kts) under the section "library." 
+arguments are set in [primesieve/build.gradle.kts](build.gradle.kts) under the `library` section. 
 If building on other platforms, this section will need updating to be platform specific and include
 the required options.
 
 Note the following:
 * Not all of the print options are wrapped because they don't make sense for library usage
-* PrimeStore for n primes not implemented yet
-* A repo distribution is not assembled or published currently but I can develop one of you have aneed for it
+* PrimeStore generating n primes is implemented yet
+* `primesieve` error conditions and handling mapped to exceptions not implemented yet
+* A repo distribution is not assembled or published currently but I can develop one of you have need for it
 * Currently tested on the following:
   * x86_64-apple-darwin24.2.0 (Sequoia 15.2)
   * primesieve 12.6

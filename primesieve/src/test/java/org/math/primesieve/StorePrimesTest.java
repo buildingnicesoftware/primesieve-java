@@ -37,15 +37,23 @@ public class StorePrimesTest {
 
     @Test
     public void testPrimesAgainstSieve() {
-        int n = 500_000_000;
+        int n = 1_000_000_000;
         long startTime = System.currentTimeMillis();
         int[] sieve_primes = sieveToPrimes(computeSieve(n), n).toArray();
+        int nThreads = new PrimeSieve().get_num_threads();
         long diff1 = System.currentTimeMillis()-startTime;
         startTime = System.currentTimeMillis();
-        int[] primesieve = LongStream.of(PrimeSieve.generatePrimes(1, n)).filter(p->p!=0).mapToInt(p->(int)p).toArray();
+        long[] primesieve_native = PrimeSieve.generatePrimes(1, n);
         long diff2 = System.currentTimeMillis()-startTime;
-        log.info("up until n={}: bf sieve = {}ms, primesieve = {}ms", n, diff1, diff2);
-        Assert.assertArrayEquals(sieve_primes, primesieve);
+        int actual_size = primesieve_native.length;
+        while (primesieve_native[actual_size-1]==0) {
+            actual_size--;
+        }
+        log.info("up until n={}: bf sieve = {}ms, primesieve = {}ms, nThreads={}, nPrimes={}", n, diff1, diff2, nThreads, actual_size);
+        Assert.assertEquals(sieve_primes.length, actual_size);
+        for (int i=0; i<sieve_primes.length; i++) {
+            Assert.assertEquals(sieve_primes[i], primesieve_native[i]);
+        }
     }
 
     private static boolean[] computeSieve(int n) {

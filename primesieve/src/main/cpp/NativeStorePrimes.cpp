@@ -23,7 +23,7 @@ JNIEXPORT void JNICALL Java_org_math_primesieve_PrimeIterator_00024StorePrimes_s
     std::size_t upper_len = primesieve::prime_count_upper(start, stop);
 
     uint64_t limit = std::min(stop, maxPrime64bits - 1);
-    printf("storePrimes: limit=%d, max_prime=%d\n", limit, it.primes_[it.size_ - 1]);
+    //printf("storePrimes: limit=%d, max_prime=%d\n", limit, it.primes_[it.size_ - 1]);
     long* java_array = env->GetLongArrayElements(j_arr, 0);
     int j_arr_index = 0;
     // memcpy buffers
