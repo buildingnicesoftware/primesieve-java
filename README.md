@@ -62,6 +62,10 @@ reasons. As an example where unsigned long might be useful:
         }
     }
 ```
+Note that generating primes until `n` will generate long[] arrays larger than required. For performance
+reasons primesieve-java natively sizes the array one time and uses `memcpy` for efficient
+copies from `primesieve::iterator` Implementations need to check for trailing zeros which mark the
+end of the arrays. See the classes and javadoc for more information.
 
 ## Development
 primesieve-java uses [nokee](https://repo.nokee.dev/) to compile natively. The compiler and linker 
@@ -71,6 +75,7 @@ the required options.
 
 Note the following:
 * Not all of the print options are wrapped because they don't make sense for library usage
+* PrimeStore for n primes not implemented yet
 * A repo distribution is not assembled or published currently but I can develop one of you have aneed for it
 * Currently tested on the following:
   * x86_64-apple-darwin24.2.0 (Sequoia 15.2)
