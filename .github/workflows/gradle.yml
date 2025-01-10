@@ -36,15 +36,17 @@ jobs:
     - name: Build primesieve library
       run: |
         sudo apt -y install g++ cmake
+        mkdir tmp
+        cd tmp
         git clone https://github.com/kimwalisch/primesieve.git
         cd primesieve
         cmake .
         cmake --build . --parallel
         sudo ldconfig
-        cd ..
         sudo mkdir -p /usr/local/lib
-        sudo cp primesieve/libprimesieve.* /usr/local/lib/.
-        sudo cp -R primesieve/include/primesieve* /usr/local/include/.
+        sudo cp libprimesieve.* /usr/local/lib/.
+        sudo cp -R include/primesieve* /usr/local/include/.
+        cd ../..
     - name: Build
       run: ./gradlew build
     - name: Run
