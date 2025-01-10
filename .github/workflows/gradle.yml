@@ -36,7 +36,7 @@ jobs:
     - name: Install primesieve
       run: sudo apt install primesieve
     - name: Debug primesieve install location
-      run: locate primesieve.hpp; ls -l /usr/local/include/primesieve*; ls -l /usr/local/lib/libprimesieve.*
+      run: ls -l /usr/local/include/primesieve*; ls -l /usr/local/lib/libprimesieve.*
     - name: Build with Gradle Wrapper
       run: ./gradlew build
 
