@@ -33,8 +33,8 @@ public class PrimeSieveTest {
     @Test
     public void testNumThreads() {
         PrimeSieve sieve = new PrimeSieve();
-        sieve.set_num_threads(10);
-        Assert.assertEquals(10, sieve.get_num_threads());
+        sieve.set_num_threads(2);
+        Assert.assertEquals(2, sieve.get_num_threads());
         sieve.set_num_threads(-1); // illegal argument, too low
         Assert.assertEquals(1, sieve.get_num_threads());
         // This is left to demonstrate an upper value which may depend on CPU, cores
