@@ -2,6 +2,7 @@
 #include <primesieve/iterator.hpp>
 #include <primesieve/StorePrimes.hpp>
 #include <stdio.h>
+#include <cstring>
 
 JNIEXPORT jint JNICALL Java_org_math_primesieve_PrimeIterator_00024StorePrimes_countUpper(JNIEnv *, jclass cls, jlong jstart, jlong jstop) {
     uint64_t start = static_cast<uint64_t>(jstart);
