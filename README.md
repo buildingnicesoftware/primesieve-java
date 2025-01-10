@@ -3,20 +3,25 @@
 primesieve-java provides a native wrapper to [kimwalisch/primesieve](https://github.com/kimwalisch/primesieve).
 
 ## Prerequisites
-primesieve-java is currently built and tested on MacOSX x86_64.
+primesieve-java is currently built and tested on MacOSX and ubuntu x86_64.
 For the exact dependencies tested and contribute on other platforms, see [Development](#Development).
 
-primesieve-java requires primesieve to be installed, ex: `brew install primesieve`
+primesieve-java requires primesieve to be installed, for example on MacOSX run: `brew install primesieve`
 
 Check that the libraries and headers are installed:
-
+On MacOSX:
 * `ls /usr/local/include/primesieve*`
   * Should include primesieve.hpp, primes/StorePrimes.hpp, primes/iterator.hpp
 * `ls /usr/local/lib/libprimesieve.*`
   * ex: libprimesieve.a, libprimesieve.dylib
+On ubuntu:
+  * `ls /usr/local/include/primesieve*`
+  * `ls /usr/lib/libprimesieve.*`
 
 ## Build
-primesieve-java must be built locally, ex:
+Ubuntu is built automatically as part of the github workflow, see [.github/workflows/gradle.yml](gradle.yml).
+
+For MacOSX, primesieve-java must be built locally, ex:
 * `git clone https://github.com/buildingnicesoftware/primesieve-java.git`
 * `cd primesieve-java`
 
@@ -85,7 +90,7 @@ Note the following:
 * PrimeStore generating n primes is implemented yet
 * `primesieve` error conditions and handling mapped to exceptions not implemented yet
 * A repo distribution is not assembled or published currently but I can develop one of you have need for it
-* Currently tested on the following:
+* Currently tested on ubuntu using the github workflow, and MacOSX with the following:
   * x86_64-apple-darwin24.2.0 (Sequoia 15.2)
   * primesieve 12.6
   * Xcode 16.2 (Build version 16C5032a)
