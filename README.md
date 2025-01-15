@@ -59,6 +59,14 @@ dependencies {
     implementation(project(":primesieve"))
     //...
 ```
+
+The following headers are supported:
+  * [primesieve.hpp](https://github.com/kimwalisch/primesieve/blob/master/include/primesieve.hpp) -> [PrimeSieve.java](primesieve/src/main/java/org/math/primesieve/PrimeSieve.java)
+  * [iterator.hpp](https://github.com/kimwalisch/primesieve/blob/master/include/primesieve/iterator.hpp) -> [PrimeIterator.java](primesieve/src/main/java/org/math/primesieve/PrimeIterator.java)
+    * Use `newPrimeIterator` methods in [PrimeSieve.java](primesieve/src/main/java/org/math/primesieve/PrimeSieve.java)
+  * [StorePrimes.hpp](https://github.com/kimwalisch/primesieve/blob/master/include/primesieve/StorePrimes.hpp)
+    * Use `storePrimes` methods in [PrimeSieve.java](primesieve/src/main/java/org/math/primesieve/PrimeSieve.java)
+
 The unit tests show example usage of primesieve-java. For example:
 ```java
     @Test
@@ -99,7 +107,7 @@ the required options.
 
 Note the following:
 * Not all of the print options are wrapped because they don't make sense for library usage
-* PrimeStore generating n primes is implemented yet
+* PrimeStore generating n primes is not implemented
 * `primesieve` error conditions and handling mapped to exceptions not implemented yet
 * A repo distribution is not assembled or published currently but I can develop one of you have need for it
 * Currently tested on ubuntu using the github workflow, and MacOSX with the following:
