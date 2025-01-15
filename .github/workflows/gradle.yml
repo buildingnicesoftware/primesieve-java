@@ -34,26 +34,9 @@ jobs:
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
       
     - name: Build primesieve library
-      run: |
-        sudo apt -y install g++ cmake
-        mkdir tmp
-        cd tmp
-        git clone https://github.com/kimwalisch/primesieve.git
-        cd primesieve
-        cmake .
-        cmake --build . --parallel
-        sudo ldconfig
-        sudo mkdir -p /usr/local/lib
-        sudo cp libprimesieve.* /usr/lib/.
-        sudo cp -R include/primesieve* /usr/local/include/.
-        cd ../..
-        echo "primesieve build complete"
-        ls -l /usr/local/include/primesieve*
-        ls -l /usr/lib/libprimesieve.*
+      run: src/scripts/ubuntu-install-primesieve.sh
     - name: Build
-      run: |
-        ./gradlew build
-        find . -name "libprimesieve.*"
+      run: ./gradlew build
     - name: Run
       run: ./gradlew run
 

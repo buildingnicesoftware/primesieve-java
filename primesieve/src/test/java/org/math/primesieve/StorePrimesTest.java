@@ -13,7 +13,7 @@ import java.util.stream.LongStream;
 public class StorePrimesTest {
     @Test
     public void testStorePrimes() {
-        long[] primes = LongStream.of(PrimeSieve.generatePrimes(1, 100)).filter(p->p!=0).toArray();
+        long[] primes = LongStream.of(PrimeSieve.storePrimes(1, 100)).filter(p->p!=0).toArray();
         Assert.assertEquals(25, primes.length);
         Assert.assertArrayEquals(new long[] {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37,
                 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97}, primes);
@@ -21,7 +21,7 @@ public class StorePrimesTest {
 
     @Test
     public void testStorePrimesUL() {
-        long[] primes = LongStream.of(PrimeSieve.generatePrimes(UnsignedLong.valueOf("9223372036854775783"),
+        long[] primes = LongStream.of(PrimeSieve.storePrimes(UnsignedLong.valueOf("9223372036854775783"),
                 UnsignedLong.valueOf("9223372036854775931"))).filter(p->p!=0).toArray();
         Assert.assertEquals(4, primes.length);
         Assert.assertEquals(UnsignedLong.valueOf("9223372036854775783"), UnsignedLong.fromLongBits(primes[0]));
@@ -32,7 +32,7 @@ public class StorePrimesTest {
 
     @Test
     public void testNoPrimes() {
-        Assert.assertEquals(0, LongStream.of(PrimeSieve.generatePrimes(20, 22)).filter(p->p!=0).toArray().length);
+        Assert.assertEquals(0, LongStream.of(PrimeSieve.storePrimes(20, 22)).filter(p->p!=0).toArray().length);
     }
 
     @Test
@@ -40,10 +40,10 @@ public class StorePrimesTest {
         int n = 1_000_000_000;
         long startTime = System.currentTimeMillis();
         int[] sieve_primes = sieveToPrimes(computeSieve(n), n).toArray();
-        int nThreads = new PrimeSieve().get_num_threads();
+        int nThreads = PrimeSieve.get_num_threads();
         long diff1 = System.currentTimeMillis()-startTime;
         startTime = System.currentTimeMillis();
-        long[] primesieve_native = PrimeSieve.generatePrimes(1, n);
+        long[] primesieve_native = PrimeSieve.storePrimes(1, n);
         long diff2 = System.currentTimeMillis()-startTime;
         int actual_size = primesieve_native.length;
         while (primesieve_native[actual_size-1]==0) {

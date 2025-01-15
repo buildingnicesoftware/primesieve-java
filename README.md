@@ -1,30 +1,42 @@
 # primesieve-java
+[![Java CI with Gradle](https://github.com/buildingnicesoftware/primesieve-java/actions/workflows/gradle.yml/badge.svg)](https://github.com/buildingnicesoftware/primesieve-java/actions/workflows/gradle.yml)
 
 primesieve-java provides a native wrapper to [kimwalisch/primesieve](https://github.com/kimwalisch/primesieve).
 
 ## Prerequisites
-primesieve-java is currently built and tested on MacOSX and ubuntu x86_64.
-For the exact dependencies tested and contribute on other platforms, see [Development](#Development).
+primesieve-java is currently built and tested on MacOSX, ubuntu x86_64, and requires [kimwalisch/primesieve](https://github.com/kimwalisch/primesieve) to be 
+installed or built locally first. See [Build](#Build).
 
-primesieve-java requires primesieve to be installed, for example on MacOSX run: `brew install primesieve`
+## Build
+primesieve-java must be built locally and requires primesieve to be built or installed.
+### Ubuntu
+Ubuntu is built automatically as part of the github workflow, see [gradle.yml](.github/workflows/gradle.yml). On
+unbuntu run:
+* `src/scripts/ubuntu-install-primesieve.sh`
+* `./gradlew build`
 
-Check that the libraries and headers are installed:
-On MacOSX:
+Check that the libraries and headers are installed (copy if needed):
 * `ls /usr/local/include/primesieve*`
   * Should include primesieve.hpp, primes/StorePrimes.hpp, primes/iterator.hpp
 * `ls /usr/local/lib/libprimesieve.*`
   * ex: libprimesieve.a, libprimesieve.dylib
-On ubuntu:
-  * `ls /usr/local/include/primesieve*`
-  * `ls /usr/lib/libprimesieve.*`
 
-## Build
-Ubuntu is built automatically as part of the github workflow, see [gradle.yml](.github/workflows/gradle.yml).
+### OSX
+Run `brew install primesieve`
+Check that the libraries and headers are installed:
+* `ls /usr/local/include/primesieve*`
+  * Should include primesieve.hpp, primes/StorePrimes.hpp, primes/iterator.hpp
+* `ls /usr/local/lib/libprimesieve.*`
+  * ex: libprimesieve.a, libprimesieve.dylib
 
-For MacOSX, primesieve-java must be built locally, ex:
+Build primesieve-java:
 * `git clone https://github.com/buildingnicesoftware/primesieve-java.git`
 * `cd primesieve-java`
+* `./gradlew build`
 
+### Sample application
+A sample app is provided which simply retrieves and counts primes, see 
+[PrimeSieveMain.java](primesieve-main/src/main/java/org/math/primesieve/PrimeSieveMain.java):
 ```console
 ./gradlew run
 > Task :primesieve-main:run
@@ -32,6 +44,12 @@ For MacOSX, primesieve-java must be built locally, ex:
 1    [main] INFO  org.math.primesieve.PrimeSieveMain  - Version: 12.6
 907  [main] INFO  org.math.primesieve.PrimeSieveMain  - Generated primes from 1 to 1000000000: found 50847534 primes
 ```
+
+## Performance
+Using all `8` CPU cores and `16` threads primesieve-java generates all primes up to `1 billion` into
+a java `long[]` array in `~500ms`. For comparison, a naive, serial [Sieve of Eratosthenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes)
+was implemented in Java and took over `8s`. The test is implemented in
+[StorePrimesTest.java](primesieve/src/test/java/org/math/primesieve/StorePrimesTest.java).
 
 ## Usage
 The subproject [primesieve-main](primesieve-main) shows an example of using primesieve-java as a dependency, ex:
@@ -45,7 +63,7 @@ The unit tests show example usage of primesieve-java. For example:
 ```java
     @Test
     public void testStorePrimes() {
-        long[] primes = LongStream.of(PrimeSieve.generatePrimes(1, 100)).filter(p->p!=0).toArray();
+        long[] primes = LongStream.of(PrimeSieve.storePrimes(1, 100)).filter(p->p!=0).toArray();
         Assert.assertEquals(25, primes.length);
         Assert.assertArrayEquals(new long[] {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37,
                 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97}, primes);
@@ -73,15 +91,9 @@ reasons primesieve-java natively sizes the array one time and uses `memcpy` for 
 copies from `primesieve::iterator` Implementations need to check for trailing zeros which mark the
 end of the arrays. See the classes and javadoc for more information.
 
-## Performance
-Using all `8` CPU cores and `16` threads primesieve-java generates all primes up to `1 billion` into
-a java `long[]` array in `~500ms`. For comparison, a naive, serial [Sieve of Eratosthenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes)
-was implemented in Java and took over `8s`. The test is implemented in
-[StorePrimesTest.java](primesieve/src/test/java/org/math/primesieve/StorePrimesTest.java).
-
 ## Development
 primesieve-java uses [nokee](https://repo.nokee.dev/) to compile natively. The compiler and linker 
-arguments are set in [primesieve/build.gradle.kts](build.gradle.kts) under the `library` section. 
+arguments are set in [build.gradle.kts](primesieve/build.gradle.kts) under the `library` section. 
 If building on other platforms, this section will need updating to be platform specific and include
 the required options.
 

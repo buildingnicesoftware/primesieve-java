@@ -3,8 +3,13 @@ package org.math.primesieve;
 import com.google.common.primitives.UnsignedLong;
 
 /**
- * Native bindings for PrimeSieve in Java. Documentation is copied from hpp files.
+ * Native bindings for PrimeSieve in Java.
+ *
+ * @see <a href="https://github.com/kimwalisch/primesieve/blob/master/include/primesieve.hpp">primesieve.hpp</a>
+ * @see <a href="https://github.com/kimwalisch/primesieve/blob/master/include/primesieve/iterator.hpp">iterator.hpp</a>
+ * @see <a href="https://github.com/kimwalisch/primesieve/blob/master/include/primesieve/StorePrimes.hpp">StorePrimes.hpp</a>
  */
+@SuppressWarnings("unused")
 public class PrimeSieve {
     static {
         loadJNI();
@@ -38,7 +43,7 @@ public class PrimeSieve {
         return PrimeIterator.StorePrimes.countUpper(start, stop);
     }
 
-    public static long[] generatePrimes(long start, long stop) {
+    public static long[] storePrimes(long start, long stop) {
         int len = countUpper(start, stop);
         assert len >= 0;
         long[] ret = new long[len];
@@ -46,8 +51,8 @@ public class PrimeSieve {
         return ret;
     }
 
-    public static long[] generatePrimes(UnsignedLong start, UnsignedLong stop) {
-        return generatePrimes(start.longValue(), stop.longValue());
+    public static long[] storePrimes(UnsignedLong start, UnsignedLong stop) {
+        return storePrimes(start.longValue(), stop.longValue());
     }
 
     public static native String primesieve_version();
@@ -59,22 +64,6 @@ public class PrimeSieve {
         return nth_prime(n, UnsignedLong.ZERO);
     }
 
-    /// Find the nth prime.
-    /// By default all CPU cores are used, use
-    /// primesieve::set_num_threads(int threads) to change the
-    /// number of threads.
-    ///
-    /// Note that each call to nth_prime(n, start) incurs an
-    /// initialization overhead of O(sqrt(start)) even if n is tiny.
-    /// Hence it is not a good idea to use nth_prime() repeatedly in a
-    /// loop to get the next (or previous) prime. For this use case it
-    /// is better to use a primesieve::iterator which needs to be
-    /// initialized only once.
-    ///
-    /// @param n  if n = 0 finds the 1st prime >= start, <br/>
-    ///           if n > 0 finds the nth prime > start, <br/>
-    ///           if n < 0 finds the nth prime < start (backwards).
-    ///
     public static UnsignedLong nth_prime(long n, UnsignedLong start) {
         return UnsignedLong.fromLongBits(nth_prime(n, start.longValue()));
     }
@@ -88,17 +77,6 @@ public class PrimeSieve {
         return count_primes_impl(start, stop);
     }
 
-    /// Count the primes within the interval [start, stop].
-    /// By default all CPU cores are used, use
-    /// primesieve::set_num_threads(int threads) to change the
-    /// number of threads.
-    ///
-    /// Note that each call to count_primes() incurs an initialization
-    /// overhead of O(sqrt(stop)) even if the interval [start, stop]
-    /// is tiny. Hence if you have written an algorithm that makes
-    /// many calls to count_primes() it may be preferable to use
-    /// a primesieve::iterator which needs to be initialized only once.
-    ///
     public static UnsignedLong count_primes(UnsignedLong start, UnsignedLong stop) {
         return UnsignedLong.fromLongBits(count_primes_impl(start.longValue(), stop.longValue()));
     }
@@ -111,11 +89,7 @@ public class PrimeSieve {
     public static long count_twins(long start, long stop) {
         return count_twins_impl(start, stop);
     }
-    /// Count the twin primes within the interval [start, stop].
-    /// By default all CPU cores are used, use
-    /// primesieve::set_num_threads(int threads) to change the
-    /// number of threads.
-    ///
+
     public static UnsignedLong count_twins(UnsignedLong start, UnsignedLong stop) {
         return UnsignedLong.fromLongBits(count_twins_impl(start.longValue(), stop.longValue()));
     }
@@ -128,11 +102,7 @@ public class PrimeSieve {
     public static long count_triplets(long start, long stop) {
         return count_triplets_impl(start, stop);
     }
-    /// Count the prime triplets within the interval [start, stop].
-    /// By default all CPU cores are used, use
-    /// primesieve::set_num_threads(int threads) to change the
-    /// number of threads.
-    ///
+
     public static UnsignedLong count_triplets(UnsignedLong start, UnsignedLong stop) {
         return UnsignedLong.fromLongBits(count_triplets_impl(start.longValue(), stop.longValue()));
     }
@@ -145,11 +115,7 @@ public class PrimeSieve {
     public static long count_quadruplets(long start, long stop) {
         return count_quadruplets_impl(start, stop);
     }
-    /// Count the prime quadruplets within the interval [start, stop].
-    /// By default all CPU cores are used, use
-    /// primesieve::set_num_threads(int threads) to change the
-    /// number of threads.
-    ///
+
     public static UnsignedLong count_quadruplets(UnsignedLong start, UnsignedLong stop) {
         return UnsignedLong.fromLongBits(count_quadruplets(start.longValue(), stop.longValue()));
     }
@@ -162,11 +128,7 @@ public class PrimeSieve {
     public static long count_quintuplets(long start, long stop) {
         return count_quintuplets_impl(start, stop);
     }
-    /// Count the prime quintuplets within the interval [start, stop].
-    /// By default all CPU cores are used, use
-    /// primesieve::set_num_threads(int threads) to change the
-    /// number of threads.
-    ///
+
     public static UnsignedLong count_quintuplets(UnsignedLong start, UnsignedLong stop) {
         return UnsignedLong.fromLongBits(count_quintuplets_impl(start.longValue(), stop.longValue()));
     }
@@ -179,48 +141,32 @@ public class PrimeSieve {
     public static long count_sextuplets(long start, long stop) {
         return count_sextuplets_impl(start, stop);
     }
-    /// Count the prime sextuplets within the interval [start, stop].
-    /// By default all CPU cores are used, use
-    /// primesieve::set_num_threads(int threads) to change the
-    /// number of threads.
-    ///
+
     public static UnsignedLong count_sextuplets(UnsignedLong start, UnsignedLong stop) {
         return UnsignedLong.fromLongBits(count_sextuplets_impl(start.longValue(), stop.longValue()));
     }
     private static native long count_sextuplets_impl(long start, long stop);
 
-    /// Print the primes within the interval [start, stop]
-    /// to the standard output.
-    ///
+
     public static void print_primes(UnsignedLong start, UnsignedLong stop) {
         print_primes(start.longValue(), stop.longValue());
     }
     private static native void print_primes(long start, long stop);
 
-    /// Returns the largest valid stop number for primesieve.
-    /// @return 2^64-1 (UINT64_MAX).
+
     public static UnsignedLong get_max_stop() {
         return UnsignedLong.fromLongBits(get_max_stop_impl());
     }
 
     private static native long get_max_stop_impl();
 
-    /// Get the current set sieve size in KiB.
     public static native int get_sieve_size();
 
-    /// Get the current set number of threads.
     public static native int get_num_threads();
 
-    /// Set the sieve size in KiB (kibibyte).
-    /// The best sieving performance is achieved with a sieve size
-    /// of your CPU's L1 or L2 cache size (per core).
-    /// @pre sieve_size >= 16 && <= 8192.
-    ///
+
     public static native void set_sieve_size(int sieve_size);
 
-    /// Set the number of threads for use in
-    /// primesieve::count_*() and primesieve::nth_prime().
-    /// By default all CPU cores are used.
-    ///
+
     public static native void set_num_threads(int num_threads);
 }
